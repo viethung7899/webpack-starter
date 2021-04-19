@@ -2,16 +2,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 module.exports = {
-  entry: { 
-    main: './src/index.js', 
-    vendor: './src/vendor.js' 
+  entry: {
+    main: './src/index.ts',
   },
   module: {
     rules: [
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
       {
         test: /\.html$/,
         use: ['html-loader'],
@@ -21,10 +16,15 @@ module.exports = {
         use: {
           loader: 'file-loader',
           options: {
-            name: '[name].[hash].[ext]',
+            name: '[name].[contenthash].[ext]',
             outputPaths: 'asset',
           },
         },
+      },
+      {
+        test: /\.tsx?/i,
+        use: 'ts-loader',
+        exclude: /node_modules/,
       },
     ],
   },
@@ -33,4 +33,7 @@ module.exports = {
       template: './src/index.html',
     }),
   ],
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js'],
+  },
 };
